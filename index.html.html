@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>セカンド守備 早見メモ</title>
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --card: #ffffff;
+      --ink: #1f2937;
+      --muted: #5b677a;
+      --blue: #1f4e78;
+      --blue2: #d9eaf7;
+      --line: #d7e0ea;
+      --yellow: #fff2cc;
+      --green: #e2f0d9;
+      --red: #f8cbad;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Yu Gothic", "Yu Gothic UI", Meiryo, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.65;
+      font-size: 16px;
+    }
+
+    header {
+      background: linear-gradient(135deg, #17365d, #1f4e78);
+      color: white;
+      padding: 28px 18px 22px;
+    }
+
+    header h1 {
+      margin: 0 0 8px;
+      font-size: 1.65rem;
+      line-height: 1.25;
+    }
+
+    header p {
+      margin: 0;
+      color: #e6eef7;
+      font-size: 0.95rem;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(255,255,255,0.96);
+      border-bottom: 1px solid var(--line);
+      padding: 8px 10px;
+      overflow-x: auto;
+      white-space: nowrap;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    nav a {
+      display: inline-block;
+      text-decoration: none;
+      color: var(--blue);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 6px 10px;
+      margin: 2px;
+      font-size: 0.88rem;
+      background: white;
+    }
+
+    main {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 14px;
+    }
+
+    section {
+      margin: 14px 0 22px;
+    }
+
+    h2 {
+      font-size: 1.25rem;
+      margin: 0 0 10px;
+      color: var(--blue);
+      border-left: 6px solid var(--blue);
+      padding-left: 10px;
+      line-height: 1.35;
+    }
+
+    h3 {
+      font-size: 1.05rem;
+      margin: 0 0 8px;
+      color: #17365d;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px;
+      margin: 10px 0;
+      box-shadow: 0 2px 8px rgba(30, 50, 80, 0.06);
+    }
+
+    .rule {
+      background: var(--yellow);
+      border-color: #ecd488;
+    }
+
+    .green {
+      background: var(--green);
+    }
+
+    .grid {
+      display: grid;
+      gap: 10px;
+    }
+
+    @media (min-width: 680px) {
+      .grid.two { grid-template-columns: 1fr 1fr; }
+    }
+
+    ul {
+      margin: 8px 0 0 1.1em;
+      padding: 0;
+    }
+
+    li {
+      margin: 4px 0;
+    }
+
+    .quick-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+    }
+
+    .quick-table th,
+    .quick-table td {
+      padding: 10px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+      font-size: 0.95rem;
+    }
+
+    .quick-table th {
+      background: var(--blue);
+      color: white;
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    .quick-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .runner {
+      font-weight: 700;
+      color: #17365d;
+      white-space: nowrap;
+    }
+
+    .badge {
+      display: inline-block;
+      background: var(--blue2);
+      color: #17365d;
+      border: 1px solid #b8cce4;
+      border-radius: 999px;
+      padding: 2px 8px;
+      font-size: 0.82rem;
+      margin: 2px 3px 2px 0;
+      font-weight: 700;
+    }
+
+    .danger {
+      background: var(--red);
+      border-color: #e2a68d;
+    }
+
+    .mini {
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .check {
+      counter-reset: step;
+      list-style: none;
+      margin-left: 0;
+    }
+
+    .check li {
+      counter-increment: step;
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 10px 12px;
+      margin: 8px 0;
+    }
+
+    .check li::before {
+      content: counter(step);
+      display: inline-grid;
+      place-items: center;
+      width: 24px;
+      height: 24px;
+      margin-right: 8px;
+      background: var(--blue);
+      color: white;
+      border-radius: 50%;
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+
+    .footer {
+      color: var(--muted);
+      font-size: 0.85rem;
+      text-align: center;
+      padding: 24px 8px 36px;
+    }
+
+    @media print {
+      nav { display: none; }
+      body { background: white; }
+      .card { box-shadow: none; break-inside: avoid; }
+      header { background: #1f4e78; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>セカンド守備 早見メモ</h1>
+    <p>初心者向け・スマホ確認用。草野球では「迷わず1つアウト」が最優先。</p>
+  </header>
+
+  <nav>
+    <a href="#rules">最優先ルール</a>
+    <a href="#quick">超簡易一覧</a>
+    <a href="#single">基本ランナー</a>
+    <a href="#multi">複数ランナー</a>
+    <a href="#outs">アウト別</a>
+    <a href="#check">10秒チェック</a>
+  </nav>
+
+  <main>
+    <section id="rules">
+      <h2>最優先ルール</h2>
+      <div class="card rule">
+        <ul>
+          <li><b>2アウトはゲッツー不要。</b>近い塁・確実な塁で1個取れば終わり。</li>
+          <li><b>ランナー1塁</b>では、まず二塁フォースを考える。</li>
+          <li><b>ランナー2塁</b>では、まず一塁アウトを優先。</li>
+          <li><b>三塁ランナーがいる時</b>は、「1点OKか／ダメか」を先に確認。</li>
+          <li>迷ったら無理せず1個アウト。<b>オールセーフが一番もったいない。</b></li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>セカンドで特に多い動き</h3>
+        <span class="badge">レフト方向に飛んだら二塁</span>
+        <span class="badge">ファーストが前に出たら一塁カバー</span>
+        <span class="badge">ライト前・右中間は中継</span>
+        <span class="badge">2アウトは1個</span>
+      </div>
+    </section>
+
+    <section id="quick">
+      <h2>超簡易版 一覧</h2>
+      <table class="quick-table">
+        <tr><th>場面</th><th>まず考えること</th></tr>
+        <tr><td class="runner">ランナーなし</td><td>一塁アウト。抜けたら二塁打阻止。</td></tr>
+        <tr><td class="runner">1塁</td><td>レフト方向に飛んだら二塁へ。自分に来たら二塁送球。</td></tr>
+        <tr><td class="runner">2塁</td><td>基本は一塁アウト。ライト前・右中間に抜けたら中継。</td></tr>
+        <tr><td class="runner">3塁</td><td>1点OKなら一塁。1点ダメならホーム。</td></tr>
+        <tr><td class="runner">1・2塁</td><td>二塁フォースあり。レフト方向に飛んだら二塁へ。</td></tr>
+        <tr><td class="runner">1・3塁</td><td>1点OKなら二塁ゲッツー狙い。</td></tr>
+        <tr><td class="runner">2・3塁</td><td>フォースなし。基本は一塁。</td></tr>
+        <tr><td class="runner">満塁</td><td>全部フォース。1アウトならゲッツー候補。</td></tr>
+      </table>
+      <p class="mini">※ 「レフト方向」はサード・ショート側、「ライト方向」はファースト側・一二塁間側の意味で整理しています。</p>
+    </section>
+
+    <section id="single">
+      <h2>ランナー別 ① 基本ランナー</h2>
+      <div class="grid two">
+        <div class="card">
+          <h3>ランナーなし</h3>
+          <ul>
+            <li>自分に来たら一塁送球。</li>
+            <li>ファーストが出たら一塁カバー。</li>
+            <li>ライト前・右中間に抜けたら、二塁打阻止の中継や二塁カバー。</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>ランナー1塁</h3>
+          <ul>
+            <li>0・1アウトは二塁フォース／ゲッツーを最初に考える。</li>
+            <li>自分に来たら二塁送球。</li>
+            <li>レフト方向の打球では二塁ベースに入る意識。</li>
+            <li>2アウトは二塁か一塁で1個取ればOK。</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>ランナー2塁</h3>
+          <ul>
+            <li>基本は一塁アウト優先。</li>
+            <li>二塁走者を見すぎない。</li>
+            <li>ライト前・右中間に抜けたらバックホームの中継。</li>
+            <li>2アウトは一塁でチェンジ。</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>ランナー3塁</h3>
+          <ul>
+            <li>1点OKなら一塁。</li>
+            <li>1点ダメなら前進してホーム。</li>
+            <li>2アウトは一塁で終わり。</li>
+            <li>ホームを見すぎない。</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="multi">
+      <h2>ランナー別 ② 複数ランナー</h2>
+      <div class="grid two">
+        <div class="card">
+          <h3>1・2塁</h3>
+          <ul>
+            <li>二塁フォースあり。</li>
+            <li>自分に来たら二塁ゲッツー候補。</li>
+            <li>無理なら一塁で1個。</li>
+            <li>レフト方向の打球では二塁ベースへ。</li>
+            <li>2アウトは一番確実なフォースで終わり。</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>1・3塁</h3>
+          <ul>
+            <li>1点OKなら二塁送球でゲッツー狙い。</li>
+            <li>1点ダメならホーム。</li>
+            <li>レフト方向の打球では二塁ベースへ。</li>
+            <li>2アウトはホーム不要。二塁か一塁で終わり。</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>2・3塁</h3>
+          <ul>
+            <li>フォースなし。</li>
+            <li>1点OKなら一塁。</li>
+            <li>1点ダメならホーム。</li>
+            <li>ライト前・右中間に抜けたら中継。</li>
+            <li>2アウトは一塁でチェンジ。</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>満塁</h3>
+          <ul>
+            <li>全部フォース。</li>
+            <li>1アウトなら二塁ゲッツー候補。</li>
+            <li>前進守備ならホーム。</li>
+            <li>2アウトは一番近いフォースアウトで終わり。</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="outs">
+      <h2>アウトカウント別の考え方</h2>
+      <div class="card green">
+        <h3>0アウト</h3>
+        <p>まず1個。ゲッツーは取れたら得。無理はしない。</p>
+      </div>
+      <div class="card green">
+        <h3>1アウト</h3>
+        <p>ゲッツーが一番おいしい。体勢が悪ければ1個でOK。</p>
+      </div>
+      <div class="card green">
+        <h3>2アウト</h3>
+        <p>1個取れば終わり。ホーム送球を考えすぎない。</p>
+      </div>
+      <div class="card danger">
+        <h3>注意</h3>
+        <p>深い打球・弱い打球・体勢が悪い時は、無理なゲッツーを狙わない。1個確実に取る。</p>
+      </div>
+    </section>
+
+    <section id="check">
+      <h2>試合前 10秒チェック</h2>
+      <ol class="check">
+        <li>アウトカウントは？</li>
+        <li>ランナーはどこ？</li>
+        <li>フォースアウトはどこにある？</li>
+        <li>自分に来たらどこへ投げる？</li>
+        <li>自分に来なかったら、二塁カバー・一塁カバー・中継のどれ？</li>
+      </ol>
+
+      <div class="card rule">
+        <h3>ひとことで覚える</h3>
+        <p>
+          ランナー1塁は二塁。<br>
+          ランナー2塁は一塁。<br>
+          三塁ランナーは点差。<br>
+          2アウトは1個。
+        </p>
+      </div>
+    </section>
+
+    <p class="footer">セカンド守備 早見メモ / 2026-06-24</p>
+  </main>
+</body>
+</html>
